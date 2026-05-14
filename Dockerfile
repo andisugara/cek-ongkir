@@ -8,7 +8,7 @@ RUN echo "Building with Vite directly..." && \
     npx vite build
 
 FROM nginx:stable-alpine
-RUN apk add --no-cache gettext
+RUN apk add --no-cache gettext ca-certificates
 COPY --from=builder /app/dist /usr/share/nginx/html
 COPY nginx/default.conf.template /etc/nginx/conf.d/default.conf.template
 COPY nginx/entrypoint.sh /entrypoint.sh
