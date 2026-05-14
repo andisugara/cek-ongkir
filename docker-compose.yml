@@ -1,0 +1,17 @@
+services:
+  cek-ongkir:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: cek-ongkir:latest
+    container_name: cek-ongkir
+    networks:
+      - msa-networks
+    ports:
+      - "8110:80"
+
+networks:
+  msa-networks:
+    driver: bridge
+    name: msa-networks
+    external: true
