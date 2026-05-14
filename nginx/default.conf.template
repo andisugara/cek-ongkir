@@ -1,0 +1,28 @@
+server {
+    listen 80;
+    server_name localhost;
+
+    location / {
+        root /usr/share/nginx/html;
+        index index.html;
+        try_files $uri $uri/ /index.html;
+    }
+
+    # Proxy RajaOngkir API requests and strip the /api/rajaongkir prefix
+    location /api/rajaongkir/ {
+        proxy_pass $RAJAONGKIR_URL/;
+        proxy_set_header Key "$RAJAONGKIR_KEY";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+    # Proxy Telegram API requests (optional) and include bot token in path
+    location /api/telegram/ {
+        proxy_pass https://api.telegram.org/bot$TELEGRAM_BOT_TOKEN/;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+}

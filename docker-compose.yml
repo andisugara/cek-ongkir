@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
     image: cek-ongkir:latest
     container_name: cek-ongkir
+    env_file:
+      - .env
     networks:
       - msa-networks
     ports:
